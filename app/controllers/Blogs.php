@@ -6,7 +6,7 @@ namespace App\controllers;
 
 use Core\Controller;
 use App\models\Articles;
-
+use Core\Helpers;
 
 defined('ROOT_PATH') or exit('Access Denied!');
 
@@ -26,9 +26,11 @@ class Blogs extends Controller
         ];
 
         $params = Articles::mergeWithPagination($params);
+        $total = Articles::findTotal($params);
         
         $view = [
             'articles' => Articles::find($params),
+            'total' => $total,
         ];
         $this->view->render('pages/blogs', $view);
     }

@@ -1,11 +1,12 @@
 <?php 
-use Core\Pagination;
+use Core\Helpers;
 use App\models\Categories;
 use Core\helpers\TimeFormat;
 use Core\helpers\StringFormat;
 
-$pagination = new Pagination();
 $categories = Categories::findAllWithArticles();
+
+$this->total = $total;
 
 
 ?>
@@ -54,7 +55,7 @@ $categories = Categories::findAllWithArticles();
     </section>
     <?php endif; ?>
 
-    <?= $pagination->display(); ?>
+    <?= $this->partial('includes/pager'); ?>
 
     <?= $this->partial('includes/footer'); ?>
 <?php $this->end(); ?>

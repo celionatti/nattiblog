@@ -14,6 +14,7 @@ class Pagination
     public $start = 1;
     public $end = 1;
     public $limit = 10;
+    public $total_page;
     public $nav_class = "";
     public $ul_class = "pagination justify-content-center";
     public $li_class = "page-item";
@@ -37,7 +38,7 @@ class Pagination
 
         $url = isset($_GET['url']) ? $_GET['url'] : '';
 
-        $current_link = ROOT . "/" . $url . '?' . trim(str_replace("url=", "", str_replace($url, "", $_SERVER['QUERY_STRING'])), '&');
+        $current_link = ROOT . $url . '?' . trim(str_replace("url=", "", str_replace($url, "", $_SERVER['QUERY_STRING'])), '&');
         $current_link = !strstr($current_link, "page=") ? $current_link . "&page=1" : $current_link;
 
         if (!strstr($current_link, "?")) {

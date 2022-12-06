@@ -195,6 +195,7 @@ $(document).ready(function () {
                 data: data,
                 success: function (response) {
                     $(".comment_textbox").val("");
+                    load_comment();
                 }
             });
         }

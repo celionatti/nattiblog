@@ -53,7 +53,7 @@ use Core\helpers\StringFormat;
                             class="bi bi-pencil-square"></i></a>
                     <button class="btn btn-sm btn-danger" onclick="confirmDelete('<?= $article->id ?>')"><i
                             class="bi bi-trash"></i></button>
-                    <a href="<?= ROOT ?>admin/comments/<?= $article->id ?>" class="btn btn-sm btn-warning"><i
+                    <a href="<?= ROOT ?>admin/comments/<?= $article->slug ?>" class="btn btn-sm btn-warning"><i
                             class="bi bi-chat-dots"></i></a>
                 </td>
             </tr>

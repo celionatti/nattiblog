@@ -109,6 +109,5 @@ class Request
     public static function sanitize($dirty)
     {
         return $dirty;
-        // return htmlentities(trim($dirty), ENT_QUOTES, "UTF-8");
     }
 }

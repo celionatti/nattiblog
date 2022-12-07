@@ -38,7 +38,7 @@ class Home extends Controller
         $subscribers = new Subscribers();
 
         if(isset($_POST['add_subscribers'])) {
-            $subscribers->email = $this->request->getReqBody('email');
+            $subscribers->email = esc($this->request->getReqBody('email'));
             $subscribers->status = 'active';
 
             if($subscribers->save()) {

@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\controllers;
 
-use App\models\Image;
 use Core\Router;
+use Core\Helpers;
 use Core\Session;
 use Core\Controller;
+use App\models\Image;
 use App\models\Users;
 use App\models\Articles;
+use App\models\Comments;
 use App\models\Categories;
 use App\models\Permission;
-use Core\Helpers;
 use Core\helpers\FileUpload;
+use App\models\CommentReplies;
 
 defined('ROOT_PATH') or exit('Access Denied!');
 
@@ -78,7 +80,7 @@ class Admin extends Controller
             Session::csrfCheck();
             $fields = ['fname', 'lname', 'email', 'phone', 'acl', 'password', 'confirm_password'];
             foreach ($fields as $field) {
-                $user->{$field} = $this->request->getReqBody($field);
+                $user->{$field} = esc($this->request->getReqBody($field));
             }
             $user->username = "@" . $user->fname . '_' . $user->lname;
 
@@ -213,14 +215,14 @@ class Admin extends Controller
         if ($this->request->isPost()) {
             Session::csrfCheck();
             $article->user_id = $this->currentUser->uid;
-            $article->title = $this->request->getReqBody('title');
+            $article->title = esc($this->request->getReqBody('title'));
             $article->status = $this->request->getReqBody('status');
             $article->content = $this->request->getReqBody('content');
             $article->category_id = $this->request->getReqBody('category_id');
             $article->trending = $this->request->getReqBody('trending');
-            $article->tags = $this->request->getReqBody('tags');
-            $article->meta_description = $this->request->getReqBody('meta_description');
-            $article->meta_keywords = $this->request->getReqBody('meta_keywords');
+            $article->tags = esc($this->request->getReqBody('tags'));
+            $article->meta_description = esc($this->request->getReqBody('meta_description'));
+            $article->meta_keywords = esc($this->request->getReqBody('meta_keywords'));
             /** Image Upload validation and Upload */
             $upload = new FileUpload('thumbnail');
             if ($id == 'new') {
@@ -338,7 +340,7 @@ class Admin extends Controller
 
         if ($this->request->isPost()) {
             Session::csrfCheck();
-            $category->category = $this->request->getReqBody('category');
+            $category->category = esc($this->request->getReqBody('category'));
             $category->status = $this->request->getReqBody('status');
 
             if ($category->save()) {
@@ -371,6 +373,103 @@ class Admin extends Controller
             $category->delete();
             Session::msg("Category Deleted.", 'success');
             Router::redirect('admin/categories');
+        }
+    }
+
+    /** ******* Comments Actions ********* */
+    public function comments($id='')
+    {
+        Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
+
+        if($id === '') {
+            Session::msg("Comment Parameters is needed, can't be empty.", 'danger');
+            Router::lastURL();
+        }
+
+        $params = [
+            'columns' => "comments.*, users.username, articles.user_id as uid",
+            'conditions' => "comments.article_slug = :article_slug AND comments.status = :status AND articles.user_id = :user_id",
+            'bind' => ['article_slug' => $id, 'status' => 'active', 'user_id' => $this->currentUser->uid],
+            'joins' => [
+                ['users', 'comments.user_id = users.uid'],
+                ['articles', 'comments.article_slug = articles.slug', 'articles', 'LEFT']
+            ],
+            'order' => 'comments.created_at DESC'
+        ];
+
+        $comments = Comments::find($params);
+        // Helpers::dnd($comments);
+
+        if(empty($comments)) {
+            Session::msg("No comment available yet! Or you can't view this Article comments.", 'info');
+            Router::lastURL();
+        }
+
+        $view = [
+            'comments' => $comments,
+        ];
+        $this->view->render('admin/comments/comments', $view);
+    }
+
+    public function viewCommentReplies()
+    {
+        if (isset($_POST['view_comment_data'])) {
+            $comment_id = esc($this->request->getReqBody('comment_id'));
+
+            $params = [
+                'columns' => "comment_replies.*, users.username",
+                'conditions' => "comment_replies.comment_id = :comment_id AND comment_replies.status = :status",
+                'bind' => ['comment_id' => $comment_id, 'status' => 'active'],
+                'joins' => [
+                    ['users', 'comment_replies.user_id = users.uid'],
+                ],
+                'order' => 'comment_replies.created_at DESC'
+            ];
+
+            $commentReplies = CommentReplies::find($params);
+
+            if ($commentReplies) {
+                $this->jsonResponse($commentReplies);
+            } else {
+                $this->jsonResponse("No comment replies yet.");
+            }
+        }
+    }
+
+    public function commentDelete($id)
+    {
+        Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
+        $comment = Comments::findById($id);
+        if (!$comment) {
+            Session::msg("That comment does not exist");
+            Router::lastURL();
+        } 
+
+        if($comment->delete()) {
+            $params = [
+                'conditions' => "comment_id = :comment_id",
+                'bind' => ['comment_id' => $id]
+            ];
+            $commentReplies = CommentReplies::find($params);
+            foreach($commentReplies as $replies) {
+                $replies->delete();
+            }
+            Session::msg("Comment Deleted.", 'success');
+            Router::lastURL();
+        }
+    }
+
+    public function commentReplyDelete($id)
+    {
+        Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
+        $commentReply = CommentReplies::findById($id);
+        if (!$commentReply) {
+            Session::msg("That comment does not exist");
+            Router::lastURL();
+        } else {
+            $commentReply->delete();
+            Session::msg("Comment Deleted.", 'success');
+            Router::lastURL();
         }
     }
 }

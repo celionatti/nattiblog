@@ -21,7 +21,7 @@ class Contact extends Controller
             Session::csrfCheck();
             $fields = ['fullname', 'email', 'subject', 'message'];
             foreach ($fields as $field) {
-                $contacts->{$field} = $this->request->getReqBody($field);
+                $contacts->{$field} = esc($this->request->getReqBody($field));
             }
 
             if($contacts->save()) {

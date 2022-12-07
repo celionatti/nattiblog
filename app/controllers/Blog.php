@@ -50,8 +50,8 @@ class Blog extends Controller
         $comment = new Comments();
 
         if(isset($_POST['add_comment'])) {
-            $comment->message = $this->request->getReqBody('msg');
-            $comment->article_slug = $this->request->getReqBody('slug');
+            $comment->message = esc($this->request->getReqBody('msg'));
+            $comment->article_slug = esc($this->request->getReqBody('slug'));
             $comment->user_id = $this->currentUser->uid ?? 'anonymous';
 
             if($comment->save()) {
@@ -91,8 +91,8 @@ class Blog extends Controller
         $commentReplies = new CommentReplies();
 
         if(isset($_POST['add_reply'])) {
-            $commentReplies->comment_id = $this->request->getReqBody('comment_id');
-            $commentReplies->reply_msg = $this->request->getReqBody('reply_msg');
+            $commentReplies->comment_id = esc($this->request->getReqBody('comment_id'));
+            $commentReplies->reply_msg = esc($this->request->getReqBody('reply_msg'));
             $commentReplies->user_id = $this->currentUser->uid ?? 'anonymous';
 
             if($commentReplies->save()) {
@@ -106,7 +106,7 @@ class Blog extends Controller
     public function viewCommentReplies()
     {
         if(isset($_POST['view_comment_data'])) {
-            $comment_id = $this->request->getReqBody('comment_id');
+            $comment_id = esc($this->request->getReqBody('comment_id'));
 
             $params = [
                 'columns' => "comment_replies.*, users.username",
@@ -133,8 +133,8 @@ class Blog extends Controller
         $commentReplies = new CommentReplies();
 
         if(isset($_POST['add_sub_replies'])) {
-            $commentReplies->comment_id = $this->request->getReqBody('comment_id');
-            $commentReplies->reply_msg = $this->request->getReqBody('reply_msg');
+            $commentReplies->comment_id = esc($this->request->getReqBody('comment_id'));
+            $commentReplies->reply_msg = esc($this->request->getReqBody('reply_msg'));
             $commentReplies->user_id = $this->currentUser->uid ?? 'anonymous';
 
             if ($commentReplies->save()) {

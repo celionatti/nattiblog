@@ -32,7 +32,7 @@ class Auth extends Controller
             Session::csrfCheck();
             $fields = ['fname', 'lname', 'email', 'password', 'confirm_password'];
             foreach ($fields as $field) {
-                $user->{$field} = $this->request->getReqBody($field);
+                $user->{$field} = esc($this->request->getReqBody($field));
             }
             $user->username = "@" . $user->fname . '_' . $user->lname;
             $user->acl = 'user';

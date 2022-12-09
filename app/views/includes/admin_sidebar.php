@@ -20,6 +20,13 @@ $currentUser = Application::$app->currentUser;
         </li>
         <?php if($currentUser->acl === 'admin' || $currentUser->acl === 'manager'): ?>
             <li class="nav-item">
+                <a class="nav-link <?= URL(1) == 'advertisements' || URL(1) == 'advertisement' ? 'active' : '' ?>" aria-current="advertisements"
+                    href="<?= ROOT ?>admin/advertisements">
+                    <i class="bi bi-fullscreen"></i>
+                    Advertisement
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link <?= URL(1) == 'users' || URL(1) == 'user' ? 'active' : '' ?>" aria-current="users"
                     href="<?= ROOT ?>admin/users">
                     <i class="bi bi-person"></i>
@@ -36,18 +43,12 @@ $currentUser = Application::$app->currentUser;
         <?php endif; ?>
         
         <li class="nav-item">
-            <a class="nav-link <?= URL(1) == 'articles' || URL(1) == 'article' ? 'active' : '' ?>" aria-current="articles" href="<?= ROOT ?>admin/articles">
+            <a class="nav-link <?= URL(1) == 'articles' || URL(1) == 'article' || URL(1) == 'comments' ? 'active' : '' ?>" aria-current="articles" href="<?= ROOT ?>admin/articles">
                 <i class="bi bi-file-richtext"></i>
                 Articles
             </a>
         </li>
-        
-        <li class="nav-item">
-            <a class="nav-link <?= URL(1) == 'comments' ? 'active' : '' ?>" aria-current="comments" href="<?= ROOT ?>admin/comments">
-                <i class="bi bi-chat-dots"></i>
-                Comments
-            </a>
-        </li>
+
         </ul>
 
         <h6

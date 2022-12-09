@@ -1,9 +1,8 @@
 <?php
 
 use Core\Helpers;
-use Core\Pagination;
 
-$pagination = new Pagination();
+$this->total = $total;
 
 ?>
 
@@ -57,7 +56,7 @@ $pagination = new Pagination();
             <?php endforeach ?>
         </tbody>
     </table>
-    <?= $pagination->display(); ?>
+    <?= $this->partial('includes/pager'); ?>
 </section>
 <?php $this->end(); ?>
 

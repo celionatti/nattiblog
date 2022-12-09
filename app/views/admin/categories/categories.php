@@ -1,9 +1,8 @@
 <?php
 
 use Core\Helpers;
-use Core\Pagination;
 
-$pagination = new Pagination();
+$this->total = $total;
 
 ?>
 
@@ -50,7 +49,7 @@ $pagination = new Pagination();
             <?php endforeach ?>
         </tbody>
     </table>
-    <?= $pagination->display(); ?>
+    <?= $this->partial('includes/pager'); ?>
     <?php else: ?>
         <h4 class="text-center text-danger border-bottom border-3 border-danger py-2">No Data available.</h4>
     <?php endif; ?>

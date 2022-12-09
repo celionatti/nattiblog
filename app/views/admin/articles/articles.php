@@ -3,6 +3,8 @@
 use Core\Helpers;
 use Core\helpers\StringFormat;
 
+$this->total = $total;
+
 ?>
 
 <?php $this->start('content'); ?>
@@ -60,7 +62,7 @@ use Core\helpers\StringFormat;
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= $this->partial('partials/pager'); ?>
+    <?= $this->partial('includes/pager'); ?>
 </section>
 
 <?php $this->end(); ?>

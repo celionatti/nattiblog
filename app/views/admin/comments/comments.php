@@ -3,6 +3,8 @@
 use Core\helpers\StringFormat;
 use Core\helpers\TimeFormat;
 
+$this->total = $total;
+
 ?>
 
 <?php $this->start('content') ?>
@@ -14,7 +16,7 @@ use Core\helpers\TimeFormat;
 <?php if($comments): ?>
 <?php foreach($comments as $comment): ?>
 
-<div class="card">
+<div class="card my-2">
     <div class="card-body bg-light">
         <input type="hidden" class="slug" value="<?= $comment->article_slug ?>">
         <div class="main-comment">
@@ -34,6 +36,9 @@ use Core\helpers\TimeFormat;
 </div>
 
 <?php endforeach; ?>
+
+<?= $this->partial('includes/pager'); ?>
+
 <?php endif; ?>
 
 <?php $this->end(); ?>

@@ -67,9 +67,9 @@ $currentUser = Application::$app->currentUser;
                     aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex align-items-center justify-content-center">
-                <form action="" method="get">
+                <form action="<?= ROOT ?>search" method="get">
                     <div class="input-group">
-                        <input type="search" class="form-control bg-transparent border-light p-3 text-white "
+                        <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" class="form-control bg-transparent border-light p-3 text-white "
                             placeholder="Type search keyword" style="width: 600px;" />
                         <button class="btn btn-light px-4">
                             <i class="bi bi-search"></i>

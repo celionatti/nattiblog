@@ -15,6 +15,7 @@ use App\models\Comments;
 use App\models\Categories;
 use App\models\Permission;
 use Core\helpers\FileUpload;
+use App\models\Advertisements;
 use App\models\CommentReplies;
 
 defined('ROOT_PATH') or exit('Access Denied!');
@@ -52,7 +53,8 @@ class Admin extends Controller
         $params = Users::mergeWithPagination($params);
 
         $view = [
-            'users' => Users::find($params)
+            'users' => Users::find($params),
+            'total' => Users::findTotal($params),
         ];
         $this->view->render('admin/users/users', $view);
     }
@@ -170,7 +172,7 @@ class Admin extends Controller
                 'joins' => [
                     ['users', 'articles.user_id = users.uid'],
                 ],
-                'order' => 'id DESC'
+                'order' => 'articles.id DESC'
             ];
         } else {
             $params = [
@@ -180,14 +182,15 @@ class Admin extends Controller
                 ],
                 'conditions' => "user_id = :user_id",
                 'bind' => ['user_id' => $this->currentUser->uid],
-                'order' => 'id DESC'
+                'order' => 'articles.id DESC'
             ];
         }
 
         $params = Articles::mergeWithPagination($params);
 
         $view = [
-            'articles' => Articles::find($params)
+            'articles' => Articles::find($params),
+            'total' => Articles::findTotal($params),
         ];
         $this->view->render('admin/articles/articles', $view);
     }
@@ -297,15 +300,6 @@ class Admin extends Controller
             if (!empty($article->thumbnail) && file_exists($article->thumbnail)) {
                 unlink($article->thumbnail);
             }
-            if (!empty($article->img_one) && file_exists($article->img_one)) {
-                unlink($article->img_one);
-            }
-            if (!empty($article->img_two) && file_exists($article->img_two)) {
-                unlink($article->img_two);
-            }
-            if (!empty($article->img_three) && file_exists($article->img_three)) {
-                unlink($article->img_three);
-            }
             $article->delete();
         } else {
             Session::msg("You do not have permission to delete that article");
@@ -322,7 +316,8 @@ class Admin extends Controller
         $params = Categories::mergeWithPagination($params);
 
         $view = [
-            'categories' => Categories::find($params)
+            'categories' => Categories::find($params),
+            'total' => Categories::findTotal($params),
         ];
         $this->view->render('admin/categories/categories', $view);
     }
@@ -398,7 +393,6 @@ class Admin extends Controller
         ];
 
         $comments = Comments::find($params);
-        // Helpers::dnd($comments);
 
         if(empty($comments)) {
             Session::msg("No comment available yet! Or you can't view this Article comments.", 'info');
@@ -407,6 +401,7 @@ class Admin extends Controller
 
         $view = [
             'comments' => $comments,
+            'total' => Comments::findTotal($params),
         ];
         $this->view->render('admin/comments/comments', $view);
     }
@@ -462,6 +457,7 @@ class Admin extends Controller
     public function commentReplyDelete($id)
     {
         Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
+
         $commentReply = CommentReplies::findById($id);
         if (!$commentReply) {
             Session::msg("That comment does not exist");
@@ -471,5 +467,110 @@ class Admin extends Controller
             Session::msg("Comment Deleted.", 'success');
             Router::lastURL();
         }
+    }
+
+    /** ********* Advertisement Actions ********* */
+    public function advertisements()
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $params = ['order' => 'company'];
+        $params = Advertisements::mergeWithPagination($params);
+
+        $view = [
+            'advertisements' => Advertisements::find($params),
+            'total' => Advertisements::findTotal($params)
+        ];
+        $this->view->render('admin/advertisements/advertisements', $view);
+    }
+
+    public function advertisement($id = 'new')
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $advertisement = $id == 'new' ? new Advertisements() : Advertisements::findById($id);
+
+        if (!$advertisement) {
+            Session::msg("Advertisement does not exist.");
+            Router::redirect('admin/advertisements');
+        }
+
+        if($this->request->isPost()) {
+            Session::csrfCheck();
+            $advertisement->company = esc($this->request->getReqBody('company'));
+            $advertisement->position = esc($this->request->getReqBody('position'));
+            $advertisement->bgcolor = esc($this->request->getReqBody('bgcolor'));
+            $advertisement->status = esc($this->request->getReqBody('status'));
+            $advertisement->objfit = esc($this->request->getReqBody('objfit'));
+            $advertisement->link = esc($this->request->getReqBody('link'));
+
+            /** Image Upload validation and Upload */
+            $upload = new FileUpload('img');
+            if ($id == 'new') {
+                $upload->required = true;
+            }
+
+            $uploadErrors = $upload->validate();
+
+            if (!empty($uploadErrors)) {
+                foreach ($uploadErrors as $field => $error) {
+                    $advertisement->setError($field, $error);
+                }
+            }
+
+            if (empty($advertisement->getErrors())) {
+                $upload->directory('uploads/advertisements');
+
+                if ($advertisement->save()) {
+                    if (!empty($upload->tmp)) {
+
+                        if ($upload->upload()) {
+                            if ($id != 'new' && file_exists($advertisement->img)) {
+                                unlink($advertisement->img);
+                                $advertisement->img = "";
+                            }
+                            $advertisement->img = $upload->fc;
+                            $image = new Image();
+                            $image->resize($advertisement->img);
+                            $advertisement->save();
+                        }
+                    }
+                    Session::msg("{$advertisement->company} Advertisement Saved.", 'success');
+                    Router::redirect('admin/advertisements');
+                }
+            }
+        }
+
+        $view = [
+            'errors' => $advertisement->getErrors(),
+            'advertisement' => $advertisement,
+            'header' => $id == 'new' ? "Add Advertisement" : "Edit Advertisement",
+            'statusOpts' => ['' => '','disabled' => 'Disabled','active' => 'Active'],
+            'positionOpts' => ['' => '','main' => 'Main','partial' => 'Partial'],
+            'objOpts' => ['' => '','none' => 'None','fill' => 'Fill','cover' => 'Cover','contain' => 'Contain']
+        ];
+        $this->view->render('admin/advertisements/advertisement', $view);
+    }
+
+    public function deleteAdvertisement($id)
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $params = [
+            'conditions' => "id = :id",
+            'bind' => ['id' => $id]
+        ];
+
+        $advertisement = Advertisements::findFirst($params);
+        if ($advertisement) {
+            Session::msg("Advertisement Deleted.", 'success');
+            if (!empty($advertisement->img) && file_exists($advertisement->img)) {
+                unlink($advertisement->img);
+            }
+            $advertisement->delete();
+        } else {
+            Session::msg("You do not have permission to delete that advertisement");
+        }
+        Router::redirect('admin/advertisements');
     }
 }

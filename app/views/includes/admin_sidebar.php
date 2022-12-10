@@ -18,12 +18,27 @@ $currentUser = Application::$app->currentUser;
                 Dashboard
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link <?= URL(1) == 'articles' || URL(1) == 'article' || URL(1) == 'comments' || URL(1) == 'review' ? 'active' : '' ?>"
+                aria-current="articles" href="<?= ROOT ?>admin/articles">
+                <i class="bi bi-file-richtext"></i>
+                Articles
+            </a>
+        </li>
         <?php if($currentUser->acl === 'admin' || $currentUser->acl === 'manager'): ?>
             <li class="nav-item">
                 <a class="nav-link <?= URL(1) == 'advertisements' || URL(1) == 'advertisement' ? 'active' : '' ?>" aria-current="advertisements"
                     href="<?= ROOT ?>admin/advertisements">
                     <i class="bi bi-fullscreen"></i>
                     Advertisement
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= URL(1) == 'tickers' || URL(1) == 'ticker' ? 'active' : '' ?>" aria-current="tickers"
+                    href="<?= ROOT ?>admin/tickers">
+                    <i class="bi bi-three-dots"></i>
+                    Tickers
                 </a>
             </li>
             <li class="nav-item">
@@ -40,14 +55,14 @@ $currentUser = Application::$app->currentUser;
                     Categories
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?= URL(1) == 'settings' || URL(1) == 'setting' ? 'active' : '' ?>" aria-current="settings"
+                    href="<?= ROOT ?>admin/settings">
+                    <i class="bi bi-wrench-adjustable-circle"></i>
+                    Settings
+                </a>
+            </li>
         <?php endif; ?>
-        
-        <li class="nav-item">
-            <a class="nav-link <?= URL(1) == 'articles' || URL(1) == 'article' || URL(1) == 'comments' ? 'active' : '' ?>" aria-current="articles" href="<?= ROOT ?>admin/articles">
-                <i class="bi bi-file-richtext"></i>
-                Articles
-            </a>
-        </li>
 
         </ul>
 
@@ -66,7 +81,7 @@ $currentUser = Application::$app->currentUser;
                 </a>
             </li>
                 <li class="nav-item my-5">
-                    <a class="nav-link bg-dark" href="<?= ROOT ?>account/profile">
+                    <a class="nav-link bg-dark" href="<?= ROOT ?>profile">
                         <img src="<?= get_image('', 'user') ?>" alt="mdo" width="45" height="45"
                             class="rounded-circle shadow" style="object-fit: cover;">
                         <span class="mx-2 text-light">

@@ -29,7 +29,7 @@ class Advertisements extends Model
     public static function mainAdvertisement()
     {
         $params = [
-            'conditions' => "position = 'main'",
+            'conditions' => "position = 'main' AND status = 'active'",
             'limit' => '1',
         ];
         return self::findFirst($params);
@@ -38,7 +38,7 @@ class Advertisements extends Model
     public static function partialAdvertisement()
     {
         $params = [
-            'conditions' => "position = 'partial'",
+            'conditions' => "position = 'partial' AND status = 'active'",
             'limit' => '1',
         ];
         return self::findFirst($params);

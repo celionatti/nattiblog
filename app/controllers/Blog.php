@@ -37,7 +37,7 @@ class Blog extends Controller
 
         $article = Articles::findFirst($params);
         if (!$article)
-            Router::redirect('errors/_404');
+            Router::redirect('_404');
 
         $view = [
             'article' => $article,

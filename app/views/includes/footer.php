@@ -22,8 +22,8 @@ use Core\Form;
             <div class="col-6 col-md-2 mb-3">
                 <h5>Corporate Links</h5>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="<?= ROOT ?>info" class="nav-link p-0 text-muted">Report a story</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Advertisement</a></li>
+                    <li class="nav-item mb-2"><a href="<?= ROOT ?>pages/report" class="nav-link p-0 text-muted">Report a story</a></li>
+                    <li class="nav-item mb-2"><a href="<?= ROOT ?>pages/advertisement" class="nav-link p-0 text-muted">Advertisement</a></li>
                     <li class="nav-item mb-2"><a href="<?= ROOT ?>policy/content" class="nav-link p-0 text-muted">Content Policy</a></li>
                 </ul>
             </div>

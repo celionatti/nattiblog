@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -21,14 +21,14 @@ class Session
     public static function exists($name)
     {
         self::start_session();
-        
+
         return isset($_SESSION[$name]);
     }
 
     public static function set($name, $value)
     {
         self::start_session();
-        
+
         $_SESSION[$name] = $value;
     }
 
@@ -80,7 +80,7 @@ class Session
         $html = "";
         foreach ($alerts as $type => $msgs) {
             foreach ($msgs as $msg) {
-                $html .= "<div class='alert alert-{$type} alert-dismissible fade show mt-3 mx-2 shadow-lg fixed-top' role='alert' style='z-index: 5000;'>
+                $html .= "<div class='alert alert-{$type} alert-dismissible fade show mt-3 mx-2 shadow-lg fixed-top text-uppercase text-center' role='alert' style='z-index: 5000;'>
                     {$msg}
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                 </div>";

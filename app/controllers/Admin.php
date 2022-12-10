@@ -17,6 +17,8 @@ use App\models\Permission;
 use Core\helpers\FileUpload;
 use App\models\Advertisements;
 use App\models\CommentReplies;
+use App\models\Settings;
+use App\models\Tickers;
 
 defined('ROOT_PATH') or exit('Access Denied!');
 
@@ -166,7 +168,7 @@ class Admin extends Controller
     {
         Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
 
-        if($this->currentUser->acl === 'admin' || $this->currentUser->acl === 'manager') {
+        if ($this->currentUser->acl === 'admin' || $this->currentUser->acl === 'manager') {
             $params = [
                 'columns' => "articles.*, users.username",
                 'joins' => [
@@ -307,6 +309,30 @@ class Admin extends Controller
         Router::redirect('admin/articles');
     }
 
+    public function review($id)
+    {
+        Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
+
+        $params = [
+            'columns' => "articles.*, users.username, users.fname, users.lname, users.img",
+            'conditions' => "slug = :slug AND status = :status",
+            'bind' => ['status' => 'published', 'slug' => $id],
+            'joins' => [
+                ['users', 'articles.user_id = users.uid'],
+            ],
+            'order' => 'id DESC'
+        ];
+
+        $article = Articles::findFirst($params);
+        if (!$article)
+            Router::redirect('_404');
+
+        $view = [
+            'article' => $article,
+        ];
+        $this->view->render('admin/articles/review', $view);
+    }
+
     /** ******* Categories Actions ******** */
     public function categories()
     {
@@ -372,11 +398,11 @@ class Admin extends Controller
     }
 
     /** ******* Comments Actions ********* */
-    public function comments($id='')
+    public function comments($id = '')
     {
         Permission::permRedirect(['admin', 'manager', 'author'], 'admin');
 
-        if($id === '') {
+        if ($id === '') {
             Session::msg("Comment Parameters is needed, can't be empty.", 'danger');
             Router::lastURL();
         }
@@ -394,7 +420,7 @@ class Admin extends Controller
 
         $comments = Comments::find($params);
 
-        if(empty($comments)) {
+        if (empty($comments)) {
             Session::msg("No comment available yet! Or you can't view this Article comments.", 'info');
             Router::lastURL();
         }
@@ -438,15 +464,15 @@ class Admin extends Controller
         if (!$comment) {
             Session::msg("That comment does not exist");
             Router::lastURL();
-        } 
+        }
 
-        if($comment->delete()) {
+        if ($comment->delete()) {
             $params = [
                 'conditions' => "comment_id = :comment_id",
                 'bind' => ['comment_id' => $id]
             ];
             $commentReplies = CommentReplies::find($params);
-            foreach($commentReplies as $replies) {
+            foreach ($commentReplies as $replies) {
                 $replies->delete();
             }
             Session::msg("Comment Deleted.", 'success');
@@ -495,7 +521,7 @@ class Admin extends Controller
             Router::redirect('admin/advertisements');
         }
 
-        if($this->request->isPost()) {
+        if ($this->request->isPost()) {
             Session::csrfCheck();
             $advertisement->company = esc($this->request->getReqBody('company'));
             $advertisement->position = esc($this->request->getReqBody('position'));
@@ -545,9 +571,9 @@ class Admin extends Controller
             'errors' => $advertisement->getErrors(),
             'advertisement' => $advertisement,
             'header' => $id == 'new' ? "Add Advertisement" : "Edit Advertisement",
-            'statusOpts' => ['' => '','disabled' => 'Disabled','active' => 'Active'],
-            'positionOpts' => ['' => '','main' => 'Main','partial' => 'Partial'],
-            'objOpts' => ['' => '','none' => 'None','fill' => 'Fill','cover' => 'Cover','contain' => 'Contain']
+            'statusOpts' => ['' => '', 'disabled' => 'Disabled', 'active' => 'Active'],
+            'positionOpts' => ['' => '', 'main' => 'Main', 'partial' => 'Partial'],
+            'objOpts' => ['' => '', 'none' => 'None', 'fill' => 'Fill', 'cover' => 'Cover', 'contain' => 'Contain']
         ];
         $this->view->render('admin/advertisements/advertisement', $view);
     }
@@ -572,5 +598,181 @@ class Admin extends Controller
             Session::msg("You do not have permission to delete that advertisement");
         }
         Router::redirect('admin/advertisements');
+    }
+
+    /** ********* Tickers Actions ********* */
+
+    public function tickers()
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $params = ['order' => 'id DESC'];
+        $params = Tickers::mergeWithPagination($params);
+
+        $view = [
+            'tickers' => Tickers::find($params),
+            'total' => Tickers::findTotal($params)
+        ];
+        $this->view->render('admin/tickers/tickers', $view);
+    }
+
+    public function ticker($id = 'new')
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $ticker = $id == 'new' ? new Tickers() : Tickers::findById($id);
+
+        if (!$ticker) {
+            Session::msg("Ticker does not exist.");
+            Router::redirect('admin/tickers');
+        }
+
+        if ($this->request->isPost()) {
+            Session::csrfCheck();
+            $ticker->content = esc($this->request->getReqBody('content'));
+            $ticker->status = esc($this->request->getReqBody('status'));
+
+            if ($ticker->save()) {
+                Session::msg('Ticker Saved!', 'success');
+                Router::redirect('admin/tickers');
+            }
+        }
+
+        $view = [
+            'errors' => [],
+            'ticker' => $ticker,
+            'header' => $id == 'new' ? "Add Ticker" : "Edit Ticker",
+            'ticker_status_opts' => ['' => '', 'disabled' => 'Disabled', 'active' => 'Active'],
+        ];
+        $this->view->render('admin/tickers/ticker', $view);
+    }
+
+    public function deleteTicker($id)
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $ticker = Tickers::findById($id);
+        if (!$ticker) {
+            Session::msg("That ticker does not exist");
+            Router::redirect('admin/tickers');
+        }
+
+        if ($ticker->delete()) {
+            Session::msg("Ticker Deleted.", 'success');
+            Router::redirect('admin/tickers');
+        }
+    }
+
+    /** ******** Settings Actions ********* */
+
+    public function settings()
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $params = ['order' => 'id DESC'];
+        $params = Settings::mergeWithPagination($params);
+
+        $view = [
+            'settings' => Settings::find($params),
+            'total' => Settings::findTotal($params),
+        ];
+        $this->view->render('admin/settings/settings', $view);
+    }
+
+    public function setting($id = 'new')
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $setting = $id == 'new' ? new Settings() : Settings::findById($id);
+
+        if (!$setting) {
+            Session::msg("Setting does not exist.");
+            Router::redirect('admin/settings');
+        }
+
+        if ($this->request->isPost()) {
+            Session::csrfCheck();
+            $setting->setting = esc($this->request->getReqBody('setting'));
+            $setting->status = esc($this->request->getReqBody('status'));
+            $setting->type = esc($this->request->getReqBody('type'));
+
+            if ($id !== 'new' && $setting->type !== 'image') {
+                $setting->value = esc($this->request->getReqBody('value'));
+            }
+
+            if ($id !== 'new' && $setting->type === 'image') {
+                $upload = new FileUpload('value');
+
+                $uploadErrors = $upload->validate();
+
+                if (!empty($uploadErrors)) {
+                    foreach ($uploadErrors as $field => $error) {
+                        $setting->setError($field, $error);
+                    }
+                }
+
+                if (empty($setting->getErrors())) {
+                    $upload->directory('uploads/settings');
+
+                    if ($setting->save()) {
+                        if (!empty($upload->tmp)) {
+
+                            if ($upload->upload()) {
+                                if (!is_null($setting->value)) {
+                                    if ($id != 'new' && file_exists($setting->value)) {
+                                        unlink($setting->value);
+                                        $setting->value = "";
+                                    }
+                                }
+                                $setting->value = $upload->fc;
+                                $image = new Image();
+                                $image->resize($setting->value);
+                                $setting->save();
+                            }
+                        }
+                        Session::msg("Setting: {$setting->setting} saved.", 'success');
+                        Router::redirect('admin/settings');
+                    }
+                }
+            }
+
+            if ($setting->save()) {
+                Session::msg("Setting {$setting->setting} Saved!", 'success');
+                Router::redirect('admin/settings');
+            }
+
+        }
+
+        $view = [
+            'errors' => $setting->getErrors(),
+            'header' => $id == 'new' ? "Add Setting" : "Edit Setting",
+            'typeOpts' => ['' => '', 'text' => 'Text', 'image' => 'Image', 'link' => 'Link'],
+            'statusOpts' => ['' => '', Settings::ACTIVE_STATUS => 'Active', Settings::DISABLED_STATUS => 'Disabled'],
+            'setting' => $setting,
+        ];
+        $this->view->render('admin/settings/setting', $view);
+    }
+
+    public function deleteSetting($id)
+    {
+        Permission::permRedirect(['admin', 'manager'], 'admin');
+
+        $params = [
+            'conditions' => "id = :id",
+            'bind' => ['id' => $id]
+        ];
+
+        $setting = Settings::findFirst($params);
+
+        if ($setting) {
+            if ($setting->type === 'image') {
+                if (!empty($setting->value) && file_exists($setting->value)) {
+                    unlink($setting->value);
+                }
+            }
+            $setting->delete();
+        }
+        Session::msg("Setting Deleted Successfully!", "success");
+        Router::redirect('admin/settings');
     }
 }

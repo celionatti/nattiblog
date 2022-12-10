@@ -139,13 +139,13 @@ class Model
             }
         }
 
-        // where 
+        // where
         if (array_key_exists('conditions', $params)) {
             $conds = $params['conditions'];
             $sql .= " WHERE {$conds}";
         }
 
-        // group 
+        // group
         if (array_key_exists('group', $params)) {
             $group = $params['group'];
             $sql .= " GROUP BY {$group}";
@@ -221,7 +221,7 @@ class Model
 
     public function timeStamps()
     {
-        $dt = new \DateTime("now", new \DateTimeZone("UTC"));
+        $dt = new \DateTime("now", new \DateTimeZone(TIME_ZONE));
         $now = $dt->format('Y-m-d H:i:s');
         $this->updated_at = $now;
         if ($this->isNew()) {

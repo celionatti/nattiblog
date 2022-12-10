@@ -25,10 +25,21 @@ class Home extends Controller
             'order' => 'articles.id DESC'
         ];
 
-        $params = Articles::mergeWithPagination($params);
+        $trending_params = [
+            'columns' => "articles.*, users.username, users.img, categories.category, categories.id as category_id",
+            'conditions' => "articles.status = :status AND articles.trending = '1'",
+            'bind' => ['status' => 'published'],
+            'joins' => [
+                ['users', 'articles.user_id = users.uid'],
+                ['categories', 'articles.category_id = categories.id', 'categories', 'LEFT']
+            ],
+            'limit' => "3",
+            'order' => 'articles.created_at DESC'
+        ];
 
         $view = [
             'articles' => Articles::find($params),
+            'trending_articles' => Articles::find($trending_params),
         ];
         $this->view->render('pages/home', $view);
     }

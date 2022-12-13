@@ -88,9 +88,7 @@ use Core\helpers\TimeFormat;
                 </div>
                 <div class="col text-end">
                     <h3>
-                        <a href="#">
-                            <?= ROOT ?><?= $user->ref_uid ?? '' ?>
-                        </a>
+                        <?= $user->ref_uid ?? '' ?>
                     </h3>
                 </div>
             </div>

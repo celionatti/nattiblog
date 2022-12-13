@@ -64,6 +64,11 @@ function esc($str)
   return htmlspecialchars($str);
 }
 
+function str_lower($text)
+{
+  return strtolower($text);
+}
+
 /** load image. if not exist, load placeholder **/
 function get_image(mixed $file = '', string $type = 'post'): string
 {

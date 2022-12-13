@@ -39,10 +39,10 @@ class Auth extends Controller
             foreach ($fields as $field) {
                 $user->{$field} = esc($this->request->getReqBody($field));
             }
-            $user->username = "@" . $user->fname . '_' . $user->lname;
+            $user->username = "@" . str_lower($user->fname) . '_' . str_lower($user->lname);
             $user->acl = 'user';
-            $user->ref_uid = $user->fname . '_' . $user->lname . Token::RandomNumber(5);
-            $user->refer_by = $ref ?? null;
+            $user->ref_uid = str_lower($user->fname) . '_' . str_lower($user->lname) . Token::RandomNumber(5);
+            $user->refer_by = str_lower($ref) ?? null;
             if ($user->save()) {
                 Session::msg("Account Created Successfully!. You're welcome.", "success");
                 Router::redirect('auth/login');

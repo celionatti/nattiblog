@@ -516,28 +516,31 @@
                         always possible, so here’s what might happen…
                         When you post, upload or contribute a creation, we can:
                     </p>
-                    <h6 class="fw-bold"><span class="mx-2">a.</span> Use, host or store it in BBC services and content</h6>
+                    <h6 class="fw-bold"><span class="mx-2">a.</span> Use, host or store it in BBC services and content
+                    </h6>
                     <p class="my-1">
                         So you might see your creation on TV, on Buzz Vibez Online,
                         social media or on other sites who have our permission
                         to feature some of our content.
                     </p>
-                    <h6 class="fw-bold"><span class="mx-2">b.</span> Copy, change or translate it, or make things inspired by it</h6>
+                    <h6 class="fw-bold"><span class="mx-2">b.</span> Copy, change or translate it, or make things
+                        inspired by it</h6>
                     <p class="my-1">
                         We will only edit your news related content where
                         necessary.
                     </p>
-                    <h6 class="fw-bold"><span class="mx-2">c.</span> Use it with our tools for making creations or remixing content</h6>
+                    <h6 class="fw-bold"><span class="mx-2">c.</span> Use it with our tools for making creations or
+                        remixing content</h6>
                     <p class="my-1">
                         Some of our services feature tools for playing around
                         with our content, writing your own code, and making
                         things like games and visualisations.
-                        <p class="my-1">These might:</p>
-                        <ul class="list-unstyled mx-4">
-                            <li>Put your creations on display to inspire other people.</li>
-                            <li>Invite others to use your creation to make their own
+                    <p class="my-1">These might:</p>
+                    <ul class="list-unstyled mx-4">
+                        <li>Put your creations on display to inspire other people.</li>
+                        <li>Invite others to use your creation to make their own
                             creation</li>
-                        </ul>
+                    </ul>
                     </p>
                     <h6 class="fw-bold"><span class="mx-2">d.</span> Share it to do research</h6>
                     <p class="my-1">
@@ -554,20 +557,30 @@
                     <p class="my-1">
                         Don’t send us anything that:
                     </p>
-                    <h6 class="fw-bold"><span class="mx-2">a)</span> Was made by someone else, or that copies someone else’s creation</h6>
-                    <h6 class="fw-bold"><span class="mx-2">b)</span> Isn’t in English (unless we’ve asked you to comment in another language)</h6>
-                    <h6 class="fw-bold"><span class="mx-2">c)</span> Is illegal or defamatory (damaging to someone else’s reputation)</h6>
-                    <h6 class="fw-bold"><span class="mx-2">d)</span> Is inappropriate (offensive, off-topic or disruptive)</h6>
+                    <h6 class="fw-bold"><span class="mx-2">a)</span> Was made by someone else, or that copies someone
+                        else’s creation</h6>
+                    <h6 class="fw-bold"><span class="mx-2">b)</span> Isn’t in English (unless we’ve asked you to comment
+                        in another language)</h6>
+                    <h6 class="fw-bold"><span class="mx-2">c)</span> Is illegal or defamatory (damaging to someone
+                        else’s reputation)</h6>
+                    <h6 class="fw-bold"><span class="mx-2">d)</span> Is inappropriate (offensive, off-topic or
+                        disruptive)</h6>
                     <h6 class="fw-bold"><span class="mx-2">e)</span> Contains personal details</h6>
-                    <h6 class="fw-bold"><span class="mx-2">f)</span> Contains spam (unless you’re commenting on a story about reconstituted meat)</h6>
+                    <h6 class="fw-bold"><span class="mx-2">f)</span> Contains spam (unless you’re commenting on a story
+                        about reconstituted meat)</h6>
                     <h6 class="fw-bold"><span class="mx-2">g)</span> Breaks our election or referendum rules.</h6>
                     <h6 class="fw-bold"><span class="mx-2">h)</span> Puts children at risk</h6>
-                    <h6 class="fw-bold"><span class="mx-2">i)</span> Infringes anyone’s rights (that includes privacy rights)</h6>
-                    <h6 class="fw-bold"><span class="mx-2">j)</span> You’ve made as part of your job or for your business</h6>
+                    <h6 class="fw-bold"><span class="mx-2">i)</span> Infringes anyone’s rights (that includes privacy
+                        rights)</h6>
+                    <h6 class="fw-bold"><span class="mx-2">j)</span> You’ve made as part of your job or for your
+                        business</h6>
                     <h6 class="fw-bold"><span class="mx-2">k)</span> Promotes a business</h6>
-                    <h6 class="fw-bold"><span class="mx-2">l)</span> Identifies someone (unless you have their consent or, if they’re under 16, the consent of their parent or guardian).</h6>
+                    <h6 class="fw-bold"><span class="mx-2">l)</span> Identifies someone (unless you have their consent
+                        or, if they’re under 16, the consent of their parent or guardian).</h6>
                     <h6 class="fw-bold"><span class="mx-2">m)</span> Is in contempt of court</h6>
-                    <h6 class="fw-bold"><span class="mx-2">n)</span> Contains links to content that can’t be seen easily, may be unsafe (viruses, worms, spyware and Trojans) or automatically launches lots of windows</h6>
+                    <h6 class="fw-bold"><span class="mx-2">n)</span> Contains links to content that can’t be seen
+                        easily, may be unsafe (viruses, worms, spyware and Trojans) or automatically launches lots of
+                        windows</h6>
                     <h6 class="fw-bold"><span class="mx-2">o)</span> Doesn’t comply with these terms</h6>
                 </div>
             </div>
@@ -575,25 +588,92 @@
             <div class="page">
                 <h2 class="sub-heading fw-semibold border-bottom border-3 border-danger py-2"><span
                         class="mx-2">12.</span>
-                        Your Buzz Vibez Account
+                    Your Buzz Vibez Account
                 </h2>
                 <div class="mx-4">
-                    <h2 class="sub-heading fw-semibold border-bottom border-3 border-danger py-2">
-                        Registering for an account
-                    </h2>
+                    <h6 class="fw-bold"><span class="mx-2">a.</span> Registering for an account</h6>
                     <p>
                         As a user of this website, you may be asked to register with us and provide private information.
                         You are responsible for ensuring the accuracy of this information, and you are responsible for
-                        maintaining the safety and security of your identifying information. You are also responsible for
+                        maintaining the safety and security of your identifying information. You are also responsible
+                        for
                         all activities that occur under your account or password.
-                        If you think there are any possible issues regarding the security of your account on the website,
+                        If you think there are any possible issues regarding the security of your account on the
+                        website,
                         inform us immediately so we may address them accordingly.
-                        We reserve all rights to terminate accounts, edit or remove content and cancel orders at our sole
+                        We reserve all rights to terminate accounts, edit or remove content and cancel orders at our
+                        sole
                         discretion.
+                    </p>
+                    <h6 class="fw-bold"><span class="mx-2">b.</span> Get your Buzz Vibez account <a
+                            href="<?= ROOT ?>auth/register">here</a></h6>
+                    <p class="my-1">
+                        To keep your account safe, don’t:
+                    </p>
+                    <ul class="list-unstyled mx-4">
+                        <li>Tell anyone your username or password</li>
+                        <li>Give us false information</li>
+                        <li>Try to log in as someone else</li>
+                        <li>Try to bypass our security measures</li>
+                        <li>Create more than one account</li>
+                        <li>Create an account for someone else, except for your child. And be sure to keep your details
+                            up-to-date.</li>
+                    </ul>
+                    <h6 class="fw-bold"><span class="mx-2">c.</span> What we do with your information</h6>
+                    <p class="my-1">
+                        The data you send us when you register, fill in web forms or use our services helps us to:
+                    </p>
+                    <ul class="list-unstyled mx-4">
+                        <li>Provide you with services, recommendations, notifications and other features</li>
+                        <li>Improve our existing services and come up with new ones.</li>
+                    </ul>
+
+                    <h6 class="fw-bold"><span class="mx-2">d.</span> Changing settings and deleting your account</h6>
+                    <p class="my-1">
+                        
+                                            </p>
+                        
+                                            <h6 class="fw-bold"><span class="mx-2">e.</span> Changing settings on your device</h6>
+                                            <p class="my-1">
+                        This can stop some of our services from working properly.
                     </p>
                 </div>
             </div>
 
+            <div class="page">
+                <h2 class="sub-heading fw-semibold border-bottom border-3 border-danger py-2"><span
+                        class="mx-2">13.</span>
+                    Applicable law
+                </h2>
+                <div class="mx-4">
+                    <p>
+                        website.
+                        [name] reserves the right to edit, modify, and change this Agreement at any time. We shall let
+                        our users know of these changes through electronic mail. This Agreement is an understanding
+                    </p>
+                </div>
+            </div>
+            <div class="page">
+                <h2 class="sub-heading fw-semibold border-bottom border-3 border-danger py-2"><span
+                        class="mx-2">14.</span>
+                    Limitation on liability
+                </h2>
+                <div class="mx-4">
+                    <p>
+                        [name] is not liable for any damages that may occur to you as a result of your misuse of our
+                        website.
+                        [name] reserves the right to edit, modify, and change this Agreement at any time. We shall let
+                        our users know of these changes through electronic mail. This Agreement is an understanding
+                        between [name] and the user, and this supersedes and replaces all prior agreements regarding
+                        the use of this website.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <section>
+            <p class="">&copy; Buzz Vibez 2022</p>
         </section>
 
     </section>

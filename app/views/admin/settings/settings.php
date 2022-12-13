@@ -36,7 +36,7 @@ $this->total = $total;
                 </td>
                 <td>
                     <?php if($setting->type === 'text'): ?>
-                        <?= StringFormat::Excerpt($setting->value, 30) ?>
+                        <?= StringFormat::Excerpt($setting->value ?? '', 30) ?>
                     <?php elseif($setting->type === 'image'): ?>
                         <img src="<?= get_image($setting->value) ?>" alt="" style="width: 75px; height: 75px;object-fit: cover;border-radius: 10px;">
                     <?php else: ?>

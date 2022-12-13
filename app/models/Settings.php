@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\models;
 
+use Core\Helpers;
 use Core\Model;
 use Core\validators\RequiredValidator;
 
@@ -25,5 +26,24 @@ class Settings extends Model
 
     const ACTIVE_STATUS = 'active';
     const DISABLED_STATUS = 'disabled';
+
+    public static function fetchSettings()
+    {
+        $params = [
+            'conditions' => "status = :status",
+            'bind' => ['status' => 'active']
+        ];
+
+        $data['settings'] = Settings::find($params);
+
+        $data['data'] = [];
+
+        if($data['settings']) {
+            foreach($data['settings'] as $row) {
+                $data['data'][$row->setting] = $row->value;
+            }
+        }
+        return $data['data'];
+    }
 
 }

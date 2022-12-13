@@ -19,7 +19,7 @@ $this->total = $total;
             <tr>
                 <th>#</th>
                 <th>Title</th>
-                <th>Slug (Preview)</th>
+                <th>Preview</th>
                 <th>Image</th>
                 <th>Author</th>
                 <th>Status</th>
@@ -38,7 +38,6 @@ $this->total = $total;
                 </td>
                 <td><a href="<?= ROOT ?>admin/review/<?= $article->slug ?>" class="text-dark">
                         <i class="bi bi-eye btn btn-sm btn-outline-dark"></i>
-                        <?= StringFormat::Excerpt($article->slug); ?>
                     </a></td>
                 <td><img src="<?= ROOT . $article->thumbnail ?>" alt=""
                         style="width: 50px; height: 50px;object-fit: cover;border-radius: 10px;"></td>

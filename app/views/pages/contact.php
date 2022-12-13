@@ -1,6 +1,9 @@
 <?php
 
 use Core\Form;
+use App\models\Settings;
+
+$settings = Settings::fetchSettings();
 
 ?>
 
@@ -13,7 +16,7 @@ use Core\Form;
             <img src="/assets/img/about-heading.jpg" alt="" class="w-100">
             <div class="about-head position-absolute bottom-50 top-0">
                 <h3 class="text-danger mt-3">About Us</h3>
-                <h1 class="text-white text-uppercase fw-bold fs-1 my-auto">THE BUZZ VIBEZ</h1>
+                <h1 class="text-white text-uppercase fw-bold fs-1 my-auto"><?= $settings['site_name'] ?? $this->getSiteTitle(); ?></h1>
             </div>
         </div>
         <h2 class="text-black h3 border-bottom border-danger border-3 p-3">Our Background</h2>
@@ -25,28 +28,9 @@ use Core\Form;
                 <div class="col-12 col-lg-6 col-md-6 col-sm-12">
                     <h2
                         class="text-shadow h3 text-uppercase border-bottom border-3 border-danger pb-2 text-black text-start">
-                        About THE BUZZ VIBEZ</h2>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci corporis vel optio modi beatae,
-                        sunt
-                        hic culpa saepe atque ratione soluta doloremque. Quis aliquid vero quisquam, fugiat explicabo
-                        adipisci
-                        ab. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic voluptatum natus sed soluta vitae
-                        quod
-                        eum enim sint dolores omnis delectus quae voluptatem numquam, esse facere vel at quam. Beatae.
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci corporis vel optio modi beatae,
-                        sunt
-                        hic culpa saepe atque ratione soluta doloremque. Quis aliquid vero quisquam, fugiat explicabo
-                        adipisci
-                        ab. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic voluptatum natus sed soluta vitae
-                        quod
-                        eum enim sint dolores omnis delectus quae voluptatem numquam, esse facere vel at quam. Beatae.
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci corporis vel optio modi beatae,
-                        sunt
-                        hic culpa saepe atque ratione soluta doloremque. Quis aliquid vero quisquam, fugiat explicabo
-                        adipisci
-                        ab. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic voluptatum natus sed soluta vitae
-                        quod
-                        eum enim sint dolores omnis delectus quae voluptatem numquam, esse facere vel at quam. Beatae.
+                        About <?= $settings['site_name'] ?? $this->getSiteTitle() ?></h2>
+                    <p>
+                        <?= $settings['about'] ?? '...' ?>
                     </p>
                 </div>
             </div>
@@ -80,10 +64,7 @@ use Core\Form;
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. At est assumenda nam autem
-                                    pariatur sit deserunt blanditiis facere labore illo placeat ut quibusdam voluptate,
-                                    culpa
-                                    excepturi ipsa temporibus nemo odit?
+                                    <?= $settings['founder'] ?? 'Loading...' ?>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +85,7 @@ use Core\Form;
                                 </div>
                             </div>
                         </div>
-    
+
                     </div>
                 </div>
             </div>

@@ -82,7 +82,7 @@ $currentUser = Application::$app->currentUser;
             </li>
                 <li class="nav-item my-5">
                     <a class="nav-link bg-dark" href="<?= ROOT ?>profile">
-                        <img src="<?= get_image('', 'user') ?>" alt="mdo" width="45" height="45"
+                        <img src="<?= get_image($currentUser->img ?? '', 'user') ?>" alt="mdo" width="45" height="45"
                             class="rounded-circle shadow" style="object-fit: cover;">
                         <span class="mx-2 text-light">
                             <?= $currentUser->username ?>

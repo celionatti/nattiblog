@@ -138,6 +138,17 @@ header.shadow .logo {
     transition: 0.3s;
 }
 
+.policy-bg {
+    width: 100%;
+    min-height: 100vh;
+    /* background: url('../img/logo2.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -5000; */
+    padding: 5px;
+}
+
 /* Home */
 .home {
     margin-top: 2.5rem;
@@ -255,8 +266,8 @@ header.shadow .logo {
 }
 
 .profile-img {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
@@ -368,6 +379,10 @@ header.shadow .logo {
     overflow: hidden;
 }
 
+.heading {
+    font-size: 2.5rem;
+}
+
 .sub-heading {
     font-size: 1.2rem;
 }
@@ -396,6 +411,7 @@ header.shadow .logo {
 .share-title {
     font-size: 1.1rem;
 }
+
 
 /*===================================*/
 
@@ -461,7 +477,8 @@ header.shadow .logo {
     }
 
     to {
-        transform: translateX(-1556px);
+        transform: translateX(calc(-100% - 1256px));
+        /* transform: translateX(-2356px); */
     }
 }
 

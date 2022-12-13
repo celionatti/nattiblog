@@ -18,7 +18,7 @@ use Core\Form;
     <?= Form::selectField('Status', 'status', $setting->status ?? '', $statusOpts ?? [], ['class' => 'form-control'], ['class' => 'form-floating mb-3'], $errors) ?>
 
     <?php if($setting->type === 'text'): ?>
-    <?= Form::textareaField('Setting (Value)', 'value', $setting->value ?? '', ['class' => 'form-control'], ['class' => 'form-floating mb-3'], $errors); ?>
+    <?= Form::textareaField('Setting (Value)', 'value', $setting->value ?? '', ['class' => 'form-control', 'rows' => '10'], ['class' => 'col-md-12 mb-3'], $errors); ?>
     <?php elseif($setting->type === 'image'): ?>
         <?= Form::fileField('Image', 'value', ['class' => "form-control", 'onchange' => "display_image_edit(this.files[0])"], ['class' => "col-md-12 mb-3"], $errors) ?>
 

@@ -10,6 +10,7 @@ use Core\Session;
 use Core\Controller;
 use App\models\Users;
 use Core\Application;
+use Core\helpers\Token;
 
 defined('ROOT_PATH') or exit('Access Denied!');
 
@@ -26,8 +27,12 @@ class Auth extends Controller
             Router::redirect('');
         }
 
+        if(isset($_GET['ref'])) {
+            $ref = esc($_GET['ref']);
+        }
+
         $user = new Users();
-        
+
         if($this->request->isPost()) {
             Session::csrfCheck();
             $fields = ['fname', 'lname', 'email', 'password', 'confirm_password'];
@@ -36,6 +41,8 @@ class Auth extends Controller
             }
             $user->username = "@" . $user->fname . '_' . $user->lname;
             $user->acl = 'user';
+            $user->ref_uid = $user->fname . '_' . $user->lname . Token::RandomNumber(5);
+            $user->refer_by = $ref ?? null;
             if ($user->save()) {
                 Session::msg("Account Created Successfully!. You're welcome.", "success");
                 Router::redirect('auth/login');

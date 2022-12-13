@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -26,7 +26,7 @@ class Users extends Model
 
     public $resetPassword = false;
 
-    public $id, $uid, $created_at, $updated_at, $fname, $lname, $username, $img, $email, $password, $phone, $acl, $ref_uid = null, $blocked = 0, $confirm_password = '', $remember = '', $old_password;
+    public $id, $uid, $created_at, $updated_at, $fname, $lname, $username, $img, $email, $password, $phone, $acl, $ref_uid = null, $refer_by = null, $blocked = 0, $confirm_password = '', $remember = '', $old_password;
 
     const USER_PERMISSION = 'user';
     const AUTHOR_PERMISSION = 'author';
@@ -62,6 +62,13 @@ class Users extends Model
     {
         $this->runValidation(new RequiredValidator($this, ['field' => 'email', 'msg' => "Email is a required field."]));
         $this->runValidation(new RequiredValidator($this, ['field' => 'password', 'msg' => "Password is a required field."]));
+    }
+
+    public function validateChangePassword()
+    {
+        $this->runValidation(new RequiredValidator($this, ['field' => 'old_password', 'msg' => "Old Password is a required field."]));
+        $this->runValidation(new RequiredValidator($this, ['field' => 'new_password', 'msg' => "New Password is a required field."]));
+        $this->runValidation(new RequiredValidator($this, ['field' => 'confirm_password', 'msg' => "Confirm Password is a required field."]));
     }
 
     public function login($remember = false)

@@ -1,10 +1,12 @@
 <?php
 
 use App\models\Categories;
+use App\models\Settings;
 use Core\helpers\TimeFormat;
 use Core\helpers\StringFormat;
 
 $categories = Categories::findAllWithArticles();
+
 
 ?>
 

@@ -13,6 +13,7 @@ class Application
     public Router $router;
     public Cookie $cookie;
     public Session $session;
+    public Mailer $mailer;
     
     public static Application $app;
     public $currentUser = null;
@@ -23,6 +24,7 @@ class Application
         $this->router = new Router();
         $this->cookie = new Cookie();
         $this->session = new Session();
+        $this->mailer = new Mailer();
         $this->currentUser = Users::getCurrentUser();
     }
 
